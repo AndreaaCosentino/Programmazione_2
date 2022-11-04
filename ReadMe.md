@@ -1,1 +1,2 @@
 # Repository di Programmazione II
+Le varie note raccolte durante il corso ed, soprattutto, gli esercizi svolti sono caricati in questa dispensa. Il materiale fa riferimento al corso di Programmazione II erogato nell'anno scolastico 2022-2023.
