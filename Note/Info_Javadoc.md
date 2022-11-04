@@ -4,6 +4,8 @@
 ### Modifies:
 I modifies sono elencati nella descrizione sovrastante le tag.
 ### Requires:
-I requires sono elencati per parametro, come corollario della descrizione d'ognuno d'essi nel tag * @param *.
+I requires sono elencati per parametro, come corollario della descrizione d'ognuno d'essi nel tag *@param*.
 ### Effects:
-Gli effects sono indicati tramite l'utilizzo del tag * @return *. 
+Gli effects sono indicati tramite l'utilizzo del tag *@return*. 
+
+#### Per "compilare" javadoc ed ottenere la pagina formattata utilizzare *javadoc nome.java*
