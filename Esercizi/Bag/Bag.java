@@ -1,10 +1,4 @@
 import java.util.*;
-// --COMMENTI-- //
-//Per convenzione i generici si indica con una lettera maiuscola che ricordi cosa rappresenti.
-//Mi intaressa come FUNZIONA la classe -> OVERVIEW.
-
-
-// --FINE COMMENTI-- //
 
 /**
  * OVERVIEW: {@code Bag} modella un bag che memorizza elementi generici ed il numero volte che sono stati inseritI.
@@ -29,7 +23,7 @@ public class Bag<E> implements Iterable<E>{
 	//METODI
 
 	/**
-	 * @param elem Elemento che verrà aggiunto. Non può essere nullo.
+	 * @param elem Elemento che verrà aggiunto.
 	 * @throws illegalArgumentException Se l'elemento è null
 	 * */
 	public void insert(E elem) throws IllegalArgumentException{
@@ -42,7 +36,7 @@ public class Bag<E> implements Iterable<E>{
 	}
 
 	/**
-	 * @param elem Elemento che verrà rimosso. Non può essere nullo.
+	 * @param elem Elemento che verrà rimosso.
 	 * @throws illegalArgumentException Se l'elemento è null.
 	 * */
 	public void remove(E elem) throws IllegalArgumentException{
@@ -101,10 +95,6 @@ public class Bag<E> implements Iterable<E>{
 	@Override
 	public String toString(){
 		String rappr = "Bag - elements [ ";
-		/*	Iterator<E> iter = this.iterator();
-		while(iter.hasNext())
-		rappr += iter.next() + " ";
-		rappr += "]";*/
 
 		for(E i : this)
 			rappr  += i + " ";
@@ -118,20 +108,20 @@ public class Bag<E> implements Iterable<E>{
 		switch(args[0]){
 		case "Integer":
 			System.out.println("Inserisci numeri Interi (CTRL+D per terminare)");
-			while(b.hasNextInt()){
-				b.insert(b.nextInt());
+			while(reader.hasNextInt()){
+				b.insert(reader.nextInt());
 			}
 			break;
 		case "String":
 			System.out.println("Inserisci Stringhe (CTRL+D per terminare)");
-			while(b.hasNextLine()){
-				b.insert(b.nextLine());
+			while(reader.hasNext()){
+				b.insert(reader.next());
 			}
 			break;
 		case "Double":
-			System.out.println("Inserisci numeri reali (CTRL+D per terminare)");
-			for(;;){
-				b.insert(b.nextDouble());
+			System.out.println("Inserisci numeri double (CTRL+D per terminare)");
+			while(reader.hasNextDouble()){
+				b.insert(reader.nextDouble());
 			}
 			break;
 		}
