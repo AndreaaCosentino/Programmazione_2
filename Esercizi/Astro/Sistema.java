@@ -61,10 +61,12 @@ public class Sistema implements Iterable{
 	 * */
 	public void simula(){
 		for(CorpoCeleste e: corpi){
-			e.attrazione(this);
+			if(e instanceof Pianeta)
+				((Pianeta)e).attrazione(this);
 		}
 		for(CorpoCeleste e: corpi){
-			e.aggiorna();
+			if(e instanceof Pianeta)
+				((Pianeta)e).aggiorna();
 		}
 		assert repOk();
 	}	
@@ -91,9 +93,30 @@ public class Sistema implements Iterable{
 			}	
 		};
 	}
-
+	/**
+	 * Ordina i corpi celesti in modo crescente.
+	 * */
+	private void ordinaElementi(){
+		int i = 0;
+		int j = 1;
+		boolean scambiato = true;
+		while(scambiato){
+			scambiato = false;
+				while(j < corpi.size()-i){
+					if ((corpi.get(j)).compareTo(corpi.get(j-1)) < 0){
+						CorpoCeleste temp = corpi.get(j);
+						corpi.set(j,corpi.get(j-1));
+						corpi.set(j-1,temp);
+						scambiato = true;
+					}
+					j++;
+				}
+			i++;
+		}
+	}
 	@Override
 	public String toString(){
+		ordinaElementi();
 		StringBuilder sb = new StringBuilder("");
 		for(CorpoCeleste e : corpi){	
 			sb.append(e);

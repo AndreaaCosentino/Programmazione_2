@@ -17,23 +17,22 @@ class Pianeta extends CorpoCeleste{
 	/**
 	 * {@inheritdoc}
 	 * */
-	@Override
 	int energia(){
 		return this.v.norma() * this.pos.norma();
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Aggiorna la posizione del pianeta secondo la sua velocità.
 	 * */
-	@Override
 	void aggiorna(){
 		this.pos = this.pos.somma(v);
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Simula l'attrazione gravitazionale di this con il corpo celeste dato.
+	 * This subisce modifica in posizione e velocità.
+	 * @param c Corpo celeste con cui simulare attrazione. 
 	 * */
-	@Override
 	void attrazione(Sistema s){
 		Iterator<CorpoCeleste> i = s.iterator();
 		CorpoCeleste d;
@@ -63,7 +62,6 @@ class Pianeta extends CorpoCeleste{
 		}	
 	}
 
-	@Override
 	Punto getPos(){
 		return pos;
 	}

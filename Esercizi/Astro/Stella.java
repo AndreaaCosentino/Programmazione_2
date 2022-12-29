@@ -20,6 +20,8 @@ class Stella extends CorpoCeleste{
 		return pos;
 	}
 
+	int energia(){return 0;}
+
 	@Override
 	public String toString(){
 		return "Stella fissa, nome: " + this.nome +
