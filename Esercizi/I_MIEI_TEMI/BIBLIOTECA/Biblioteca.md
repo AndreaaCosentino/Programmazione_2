@@ -32,6 +32,15 @@ Libri:
 3- "Effective Java" - Joshua Block, N° 3 copie.
 
 ```
+Per fare una prenotazione, deve essere possibile aggiungere degli studenti:
+
+```
+STUDENTE
+Nome: Andrea
+Cognome: Cosentino
+Matricola: 213871
+Ateneo: Uniba
+```
 
 Deve essere possibile anche effettuare un prestito:
 ```
@@ -50,3 +59,4 @@ FASCIA ORARIA: 9:00 - 17:30
 ```
 
 Per ogni biblioteca stampare i posti occupati e i prestiti effettuati.
+
