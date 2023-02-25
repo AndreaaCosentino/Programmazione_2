@@ -74,4 +74,42 @@ Le classi anonime possono trovarsi in un contesto statico ma anche non statico. 
 Si faccia attenzione al fatto che anche se una classe anonima si trova in un contesto statico **NON** può avere membri statici, fatta eccezione per le variabili costanti (che sono tipi primitivi final o stringhe inizializzate a espressioni costanti).
 Uno svantaggio della classe anonima è l'impossibilità di fare instanceof, non può implementare più interfacce (può estenderne una al massimo, il motivo di questa scelta è puramente sintattica) e non può implementare un'interfaccia ed estendere una classe nello stesso momento.
 
-L'ultima classe è la classe locale. La classe locale è identica alla classe anonima con la differenza che ha un nome e quindi può essere utilizzata in più punti del codice. 
+L'ultima classe è la classe locale. La classe locale è identica alla classe anonima con la differenza che ha un nome e quindi può essere utilizzata in più punti del codice.
+
+---
+##### Procedura sottodeterminata
+Una procedura si dice sottodeterminata se alcuni dettagli di che cosa la procedura fa sono lasciati indefiniti. Ciò vuol dire che per alcuni input la procedura ha un set di output possibili, e ne può produrre uno qualunque. 
+Per esempio, supponiamo di avere una procedura che ricerca un valore all'interno di un array e restituisce la posizione di quel valore, se presente.
+Cosa succede se ci sono più posizioni dell'array che contengono il valore dato? Qual è la posizione che viene restituita?. Si prenda questo frammento di codice come esempio:
+```java
+    /**
+    * Restituisce la posizione del valore dato nell'array dato.
+    * @param v Il vettore.
+    * @param valore Il valore.
+    * @return La posizione del valore dato nell'array dato.
+    * @throws NullPointerException Se il vettore è {@code null}
+    */
+    public int cercaElemento(int[] v, int valore){
+        ...
+    }
+```
+Questo frammento di codice è un esempio di specifica per la procedura che cerca un elemento all'interno di un vettore.
+Se l'input è il seguente
+```
+V = [0,3,4,1,5,9], valore = 3
+```
+senza dubbio la procedura restituirà 1, infatti 3 si trova in posizione 1 dell'array V. Ma cosa succede se invece l'input è il seguente:
+```
+V = [1,3,3,3,5]
+```
+La procedura restituisce 1,2 o 3? Questo non è un problema di lana caprina, o meglio, forse lo è nel caso di numeri ma non nel caso di oggetti. Restituire un oggetto invece che un altro può essere influente.
+Non è per forza detto che una procedura sottodeterminata sia errata, ma potrebbe esserlo.
+
+Di solito un'astrazione sottoderminata ha un'implementazione deterministica, ovvero se chiamata su due input uguali restituisce sempre lo stesso output. Nel caso della ricerca in un vettore potremmo aspettarci che restituica sempre il primo elemento che incontra nella ricerca, ovvero quello con indice più basso. 
+Un'astrazione sottodeterminata potrebbe avere anche un'implementazione non deterministica, questa si ottiene attraverso l'uso di variabili globali, del clock, di variabili statiche etc... .
+
+---
+
+##### Effetti collaterali benevoli
+
+Gli effetti collaterali benevoli 
