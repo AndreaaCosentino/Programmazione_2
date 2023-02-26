@@ -3,6 +3,8 @@
 Qui sotto sono riportate le domande fatte agli orali di *programmazione II* e le risposte.
 Le risposte non devono essere imparate a memoria, servono solo come aiuto a comprendere i diversi aspetti di *Java*.
 
+E' bene usare un linguaggio accurato durante l'esame orale. Non rispondete subito, prendetevi del tempo per organizzare le idee e preparare il discorso. Ricordatevi sempre di supportare la vostra narrazione con degli esempi, vanno bene anche quelli fatti a lezione/dal libro ma sono molto apprezzati esempi propri.
+
 ---
 ##### Classi innestate
 
@@ -112,4 +114,44 @@ Un'astrazione sottodeterminata potrebbe avere anche un'implementazione non deter
 
 ##### Effetti collaterali benevoli
 
-Gli effetti collaterali benevoli 
+Gli effetti collaterali benevoli sono delle modifiche non visibili al di fuori dell'implementazione. Gli effetti collaterali benevoli si riferiscono ad un metodo. Sono collaterali perchè non è ciò per cui il metodo è realizzato. Il metodo può esibire un comportamento, il suo comportamento proprio descritto nella specifica, e oltre a quel comportamento modificare l'implementazione. Nelle specifiche scriviamo i comportamenti che hanno i metodi, ma gli effetti collaterali benevoli non fanno parte del comportamento e vanno quindi esclusi. 
+Sono benevoli **NON** perchè portano un vantaggio, ma bensì perchè non cambiano la rappresentazione astratta dell'oggetto. Per convincersi dell'assurdità della prima definizione basti pensare che, se considerata valida la definizione per cui un effetto è benevolo perchè porta un vantaggio, per definire un effetto collaterale come benevolo dovremmo ragionare sulla sua effettiva convenienza, aprendo un dibattito che non ha una risposta definitiva.
+Gli effetti collaterali benevoli hanno senso di esistere in virtù della definizione della funzione d'astrazione (per la risposta a che cos'è la funzione d'astrazione si guardi la relativa domanda). Sicché la funzione d'astrazione è many-to-one (molti ad uno, o  biettiva) esistono più implementazioni concrete che corrispondo allo stesso oggetto astratto. E' evidente che se implementiamo delle astrazioni dati per cui la funzione è uno ad uno gli effetti collaterali non possono esistere. 
+A cosa servono gli effetti collaterali benevoli? Servono ad ottenere una rappresentazione più efficiente, quindi più facile da utilizzare. Questa non è la definizione di effetti collaterali benevoli, pensì il motivo per cui li adoperiamo e come li adoperiamo. Si noti che è effetto collaterale benevolo anche la modifica della rappresentazione interna che peggiora, da un punto di vista dell'efficienza, la stessa.
+Un esempio classico è quello dei numeri irrazionali espressi come frazioni. 
+Il numero $$\frac{50}{100}$$ rappresenta a livello astratto $$0.5$$ . Se internamente decidessimo di cambiare la rappresentazione in $$\frac{1}{2}$$ a livello astratto non ci sarebbero ripercussioni. Quindi, un metodo come
+```java
+    public void moltiplica(Irrazionale c){
+        ...
+        reduce(this)
+    }
+```
+Che svolge la moltiplicazione tra *c* e *this* ha come effetto collaterale benevolo la riduzione ai minimi termini del risultato. *reduce* è un metodo che si occupa dalla ridzione ai minimi termini di un irrazionale. Ma anche questo metodo presenta degli effetti collaterali benevoli:
+```java
+    public void moltiplica(Irrazionale c){
+        ...
+        this.numeratore *= 100;
+        this.denominatore *= 100;
+    }
+```
+Anche se peggiora l'efficienza della rappresentazione concreta è pur sempre un effeto collaterale **benevolo**. 
+In sintesi, non fatevi ingannare dal significato di benevolo.
+---
+
+##### Funzione d'astrazione e invariante di rappresentazione
+
+La funzione d'astrazione permette di catturare le intenzioni del progettista nello scegliere un'implementazione. E' la prima cosa che decidiamo quando inventiamo una nuova rappresentazione. Ci permette di capire come le variabili di istanza sono legate all'oggetto astratto e come cercano di rappresentarlo a livello concreto.
+A livello formale possiamo definire la funzione d'astrazione come $$AF: C \to A$$, dove $$C$$, il dominio, rappresenta gli stati concreti ed $$A$$, il codominio (detto range in inglese), rappresenta l'oggetto astratto che rappresenta un dato stato concreto. 
+La funzione d'astrazione può essere una funzione many-to-one, ma non è vero che lo sia sempre. E' many-to-one quando ci sono più possibili rappresentazioni concrete di un oggetto astratto. 
+Un esempio di una funzione d'astrazione che non è biettiva è quella relativa all'astrazione dati introdotta come wrapper per l'int, ovvero la classe *Integer*. Dentro la classe Integer è presente un campo che è l'intero stesso che rappresenta. Un Integer non può rappresenare un intero in due diversi modi. Quindi la sua funzione d'astrazione è one-to-one, ovvero una funzione identità.
+Un altro esempio è per i record. Quando costruiamo dei record non abbiamo bisogno di specificare la funzione d'astrazione, perchè questa è la funzione identità. 
+I record non forniscono alcuna astrazione sulla propria rappresentazione.
+```java
+public Record Libro(String titolo, String autore,Int numeropagine){
+    ....
+}
+```
+La rappresentazione del record è la collezione dei suoi campi, ma così è anche l'oggetto astratto. Quando parliamo di un libro, questo è identificato e rappresentato dal suo titolo, da chi l'ha scritto etc... . 
+L'invariante di rappresentazione è un predicato  $$J:C\to boolean$$ e si riferisce ad una classe. Il dominio è l'insieme degli oggetti che la classe permette di creare, ma non tutti gli oggetti sono legali. Per oggetto legale si intende un oggetto che è una rappresentazione legittima di un oggetto astratto. Ad ogni oggetto legale, l'invariante associa il valore  *true*, ad ogni oggetto illegale associa *false*.
+L'invariante di rappresentazione raccoglie tutte le caratteristiche che ha un oggetto legale. Se un oggetto non soddisfa l'invariante di rappresentazione, allora questo è illegale e non è una rappresentazione legittima dell'oggetto astratto che l'astrazione dati si pone di rappresentare.
+Se tutti gli oggetti che possono essere creati da una classe sono legali, allora l'IR è semplicemente *true*, cioè per ogni oggetto restituisce *true*. Questo è vero, per esempio, nel caso dei record.
