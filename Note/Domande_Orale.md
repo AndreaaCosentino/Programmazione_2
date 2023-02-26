@@ -80,7 +80,7 @@ L'ultima classe è la classe locale. La classe locale è identica alla classe an
 
 ---
 ##### Procedura sottodeterminata
-Una procedura si dice sottodeterminata se alcuni dettagli di che cosa la procedura fa sono lasciati indefiniti. Ciò vuol dire che per alcuni input la procedura ha un set di output possibili, e ne può produrre uno qualunque. 
+Una procedura si dice sottodeterminata se alcuni dettagli di che cosa la procedura faccia sono lasciati indefiniti. Ciò vuol dire che per alcuni input la procedura ha un set di output possibili, e ne può produrre uno qualunque. 
 Per esempio, supponiamo di avere una procedura che ricerca un valore all'interno di un array e restituisce la posizione di quel valore, se presente.
 Cosa succede se ci sono più posizioni dell'array che contengono il valore dato? Qual è la posizione che viene restituita?. Si prenda questo frammento di codice come esempio:
 ```java
@@ -145,14 +145,34 @@ La funzione d'astrazione permette di catturare le intenzioni del progettista nel
 A livello formale possiamo definire la funzione d'astrazione come $AF: C \to A$, dove $C$, il dominio, rappresenta gli stati concreti ed $A$, il codominio (detto range in inglese), rappresenta l'oggetto astratto che rappresenta un dato stato concreto. 
 La funzione d'astrazione può essere una funzione many-to-one, ma non è vero che lo sia sempre. E' many-to-one quando ci sono più possibili rappresentazioni concrete di un oggetto astratto. 
 Un esempio di una funzione d'astrazione che non è biettiva è quella relativa all'astrazione dati introdotta come wrapper per l'int, ovvero la classe *Integer*. Dentro la classe Integer è presente un campo che è l'intero stesso che rappresenta. Un Integer non può rappresenare un intero in due diversi modi. Quindi la sua funzione d'astrazione è one-to-one, ovvero una funzione identità.
-Un altro esempio è per i record. Quando costruiamo dei record non abbiamo bisogno di specificare la funzione d'astrazione, perchè questa è la funzione identità. 
-I record non forniscono alcuna astrazione sulla propria rappresentazione.
-```java
-public Record Libro(String titolo, String autore,Int numeropagine){
-    ....
-}
-```
-La rappresentazione del record è la collezione dei suoi campi, ma così è anche l'oggetto astratto. Quando parliamo di un libro, questo è identificato e rappresentato dal suo titolo, da chi l'ha scritto etc... . 
 L'invariante di rappresentazione è un predicato  $J:C\to boolean$ e si riferisce ad una classe. Il dominio è l'insieme degli oggetti che la classe permette di creare, ma non tutti gli oggetti sono legali. Per oggetto legale si intende un oggetto che è una rappresentazione legittima di un oggetto astratto. Ad ogni oggetto legale, l'invariante associa il valore  *true*, ad ogni oggetto illegale associa *false*.
 L'invariante di rappresentazione raccoglie tutte le caratteristiche che ha un oggetto legale. Se un oggetto non soddisfa l'invariante di rappresentazione, allora questo è illegale e non è una rappresentazione legittima dell'oggetto astratto che l'astrazione dati si pone di rappresentare.
-Se tutti gli oggetti che possono essere creati da una classe sono legali, allora l'IR è semplicemente *true*, cioè per ogni oggetto restituisce *true*. Questo è vero, per esempio, nel caso dei record.
+Se tutti gli oggetti che possono essere creati da una classe sono legali, allora l'IR è semplicemente *true*, cioè per ogni oggetto restituisce *true*.
+L'invariante di rappresentazione si chiama invariante perchè non varia, cioè è sempre vero. In realtà l'invariante può essere violato temporaneamente, l'importante è che prima della chiamata di un metodo ed alla fine valga.
+E' importante sottolineare che tra l'invariante e la funzione d'astrazione esiste un legame. Non ha senso andare a definire la funzione d'astrazione per oggetti che non sono legali, cioè che non rispettano l'IR.
+
+---
+
+##### Correttezza dell'astrazione
+TODO
+
+---
+##### Le astrazioni
+TODO
+
+---
+##### Polimorfismo
+TODO
+
+---
+##### Le eccezioni
+TODO
+
+---
+##### La gerarchia dati
+TODO
+
+---
+##### Note sparse
+- I record di cui parla la Liskov **non** sono i record introdotti in Java 14. Per la Liskov un record è una classe package protected che colleziona dei campi e a cui il codice del pacchetto ha accesso diretto, con possibilità di modifica. Insomma, è un modo per compattare delle informazioni.
+- Come già detto nella relativa domanda, non fatevi confondore dal significato di benevolent quando si parla di benevolent side effect! Benevolent vuol dire che è un effetto che non cambia l'oggetto astratto rappresentato, non vuol dire che offre dei vantaggi!
