@@ -119,7 +119,7 @@ Sono benevoli **NON** perchè portano un vantaggio, ma bensì perchè non cambia
 Gli effetti collaterali benevoli hanno senso di esistere in virtù della definizione della funzione d'astrazione (per la risposta a che cos'è la funzione d'astrazione si guardi la relativa domanda). Sicché la funzione d'astrazione è many-to-one (molti ad uno, o  biettiva) esistono più implementazioni concrete che corrispondo allo stesso oggetto astratto. E' evidente che se implementiamo delle astrazioni dati per cui la funzione è uno ad uno gli effetti collaterali non possono esistere. 
 A cosa servono gli effetti collaterali benevoli? Servono ad ottenere una rappresentazione più efficiente, quindi più facile da utilizzare. Questa non è la definizione di effetti collaterali benevoli, pensì il motivo per cui li adoperiamo e come li adoperiamo. Si noti che è effetto collaterale benevolo anche la modifica della rappresentazione interna che peggiora, da un punto di vista dell'efficienza, la stessa.
 Un esempio classico è quello dei numeri irrazionali espressi come frazioni. 
-Il numero $$\frac{50}{100}$$ rappresenta a livello astratto $$0.5$$ . Se internamente decidessimo di cambiare la rappresentazione in $$\frac{1}{2}$$ a livello astratto non ci sarebbero ripercussioni. Quindi, un metodo come
+Il numero $\frac{50}{100}$ rappresenta a livello astratto $0.5$ . Se internamente decidessimo di cambiare la rappresentazione in $\frac{1}{2}$ a livello astratto non ci sarebbero ripercussioni. Quindi, un metodo come
 ```java
     public void moltiplica(Irrazionale c){
         ...
@@ -153,6 +153,6 @@ public Record Libro(String titolo, String autore,Int numeropagine){
 }
 ```
 La rappresentazione del record è la collezione dei suoi campi, ma così è anche l'oggetto astratto. Quando parliamo di un libro, questo è identificato e rappresentato dal suo titolo, da chi l'ha scritto etc... . 
-L'invariante di rappresentazione è un predicato  $$J:C\to boolean$$ e si riferisce ad una classe. Il dominio è l'insieme degli oggetti che la classe permette di creare, ma non tutti gli oggetti sono legali. Per oggetto legale si intende un oggetto che è una rappresentazione legittima di un oggetto astratto. Ad ogni oggetto legale, l'invariante associa il valore  *true*, ad ogni oggetto illegale associa *false*.
+L'invariante di rappresentazione è un predicato  $J:C\to boolean$ e si riferisce ad una classe. Il dominio è l'insieme degli oggetti che la classe permette di creare, ma non tutti gli oggetti sono legali. Per oggetto legale si intende un oggetto che è una rappresentazione legittima di un oggetto astratto. Ad ogni oggetto legale, l'invariante associa il valore  *true*, ad ogni oggetto illegale associa *false*.
 L'invariante di rappresentazione raccoglie tutte le caratteristiche che ha un oggetto legale. Se un oggetto non soddisfa l'invariante di rappresentazione, allora questo è illegale e non è una rappresentazione legittima dell'oggetto astratto che l'astrazione dati si pone di rappresentare.
 Se tutti gli oggetti che possono essere creati da una classe sono legali, allora l'IR è semplicemente *true*, cioè per ogni oggetto restituisce *true*. Questo è vero, per esempio, nel caso dei record.
