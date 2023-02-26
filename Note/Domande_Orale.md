@@ -136,6 +136,7 @@ Che svolge la moltiplicazione tra *c* e *this* ha come effetto collaterale benev
 ```
 Anche se peggiora l'efficienza della rappresentazione concreta è pur sempre un effeto collaterale **benevolo**. 
 In sintesi, non fatevi ingannare dal significato di benevolo.
+
 ---
 
 ##### Funzione d'astrazione e invariante di rappresentazione
