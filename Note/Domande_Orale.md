@@ -142,7 +142,7 @@ In sintesi, non fatevi ingannare dal significato di benevolo.
 ##### Funzione d'astrazione e invariante di rappresentazione
 
 La funzione d'astrazione permette di catturare le intenzioni del progettista nello scegliere un'implementazione. E' la prima cosa che decidiamo quando inventiamo una nuova rappresentazione. Ci permette di capire come le variabili di istanza sono legate all'oggetto astratto e come cercano di rappresentarlo a livello concreto.
-A livello formale possiamo definire la funzione d'astrazione come $$AF: C \to A$$, dove $$C$$, il dominio, rappresenta gli stati concreti ed $$A$$, il codominio (detto range in inglese), rappresenta l'oggetto astratto che rappresenta un dato stato concreto. 
+A livello formale possiamo definire la funzione d'astrazione come $AF: C \to A$, dove $C$, il dominio, rappresenta gli stati concreti ed $A$, il codominio (detto range in inglese), rappresenta l'oggetto astratto che rappresenta un dato stato concreto. 
 La funzione d'astrazione può essere una funzione many-to-one, ma non è vero che lo sia sempre. E' many-to-one quando ci sono più possibili rappresentazioni concrete di un oggetto astratto. 
 Un esempio di una funzione d'astrazione che non è biettiva è quella relativa all'astrazione dati introdotta come wrapper per l'int, ovvero la classe *Integer*. Dentro la classe Integer è presente un campo che è l'intero stesso che rappresenta. Un Integer non può rappresenare un intero in due diversi modi. Quindi la sua funzione d'astrazione è one-to-one, ovvero una funzione identità.
 Un altro esempio è per i record. Quando costruiamo dei record non abbiamo bisogno di specificare la funzione d'astrazione, perchè questa è la funzione identità. 
