@@ -162,7 +162,17 @@ TODO
 
 ---
 ##### Polimorfismo
-TODO
+Il polimorfismo generalizza le astrazioni in modo da poterle farle funzionare su diversi tipi. In questo modo non si deve ridefinire un'astrazione solamente perchè utilizza un tipo diverso.
+Un'astrazione dati potrebbe essere polimorfa rispetto ai tipi degli elementi che contiene che i suoi oggetti contengono. Un esempio potrebbe essere l'astrazione *List*. Una lista potrebbe contenere animali, libri, persone etc... . 
+Un metodo potrebbe essere polimorfo rispetto ai tipi degli argomenti che riceve. Per esempio, riprendendo la lista di prima, potremmo poter rimuovere un elemento di quella lista, che passiamo per argomento ad un metodo *remove*. Il tipo del parametro dipende dal tipo degli elementi della lista. 
+
+In java possiamo ottenere il polimorfismo in due modi:
+- Attraverso la gerarchia dei tipi
+- Usando i generici (In questo caso si parla di polimorfismo parametrizzato)
+
+Nel primo caso gli argomenti interessati sono dichiarati come appartenenti al supertipo, in questo modo il tipo concreto può essere di uno dei sottotipi del supertipo. Solitamente come supertipo si sceglie il tipo *Object*, ma a volte questo può non essere una scelta soddisfacente. Infatti, *Object* ha già implementati alcuni metodi (quali per esempio *equals*) a cui si vuole dare una diversa implementazione oppure si vogliono aggiungere dei metodi extra. In questo caso allora si definisce un nuovo tipo da utilizzare da supertipo, a cui si provvedono le implementazioni volute e tutti i metodi extra necessari.
+Il tipo degli elementi restituiti dai metodi che restituiscono un oggetto della collezione è di tipo *Object*. Questo obbliga il codice che li utilizza ad effettuare un casting esplicito.
+Quando, per esempio, inseriamo elementi in una collezione nel contesto dell'astrazione polimorfa il compilatore non fa alcun tipo di controllo sul tipo degli elementi inseriti. Se in una lista vogliamo inserire degli Integer ma poi inseriamo anche un Gatto, il compilatore non solleverà alcuna eccezione.
 
 ---
 ##### Le eccezioni
