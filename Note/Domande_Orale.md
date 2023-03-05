@@ -110,6 +110,21 @@ Non è per forza detto che una procedura sottodeterminata sia errata, ma potrebb
 Di solito un'astrazione sottoderminata ha un'implementazione deterministica, ovvero se chiamata su due input uguali restituisce sempre lo stesso output. Nel caso della ricerca in un vettore potremmo aspettarci che restituica sempre il primo elemento che incontra nella ricerca, ovvero quello con indice più basso. 
 Un'astrazione sottodeterminata potrebbe avere anche un'implementazione non deterministica, questa si ottiene attraverso l'uso di variabili globali, del clock, di variabili statiche etc... .
 
+Una procedura sottodeterminate è utile, per esempio, quando si vuole definire un metodo per il supertipo che però lascia ai sottotipi libertà di implementazione.
+Per esempio, se abbiamo questo supertipo:
+```java
+public class Set<E>{
+    ... 
+    /**
+     * Restituisce un iteratore sugli elementi di this.
+     * @return Un iteratore sugli elementi di this.
+     * */
+    public Iterator<E> elements(){
+    }
+}
+```
+In che modo l'iteratore restituirà gli elementi all'interno del set? Non lo sappiamo, infatti questa procedura è sottodeterminata, ergo esistono degli input(in questo caso non ci sono input) per cui esistono differenti possibili output. Potremmo decidere di restituirli come sono stati inseriti, oppure utilizzando un ordine , etc... . Allora l'idea è che i sottotipi di *Set<E>*, per esempio *SortedSet<E>*, possono fare un *override* di questo metodo e rispecificarlo, andando a renderlo deterministico.
+
 ---
 
 ##### Effetti collaterali benevoli
@@ -163,7 +178,7 @@ TODO
 ---
 ##### Polimorfismo
 Il polimorfismo generalizza le astrazioni in modo da poterle farle funzionare su diversi tipi. In questo modo non si deve ridefinire un'astrazione solamente perchè utilizza un tipo diverso.
-Un'astrazione dati potrebbe essere polimorfa rispetto ai tipi degli elementi che contiene che i suoi oggetti contengono. Un esempio potrebbe essere l'astrazione *List*. Una lista potrebbe contenere animali, libri, persone etc... . 
+Un'astrazione dati potrebbe essere polimorfa rispetto ai tipi degli elementi che i suoi oggetti contengono. Un esempio potrebbe essere l'astrazione *List*. Una lista potrebbe contenere animali, libri, persone etc... . 
 Un metodo potrebbe essere polimorfo rispetto ai tipi degli argomenti che riceve. Per esempio, riprendendo la lista di prima, potremmo poter rimuovere un elemento di quella lista, che passiamo per argomento ad un metodo *remove*. Il tipo del parametro dipende dal tipo degli elementi della lista. 
 
 In java possiamo ottenere il polimorfismo in due modi:
@@ -176,11 +191,55 @@ Quando, per esempio, inseriamo elementi in una collezione nel contesto dell'astr
 
 ---
 ##### Le eccezioni
-TODO
+
+
 
 ---
 ##### La gerarchia dati
 TODO
+
+---
+##### Tipi di supertipo
+
+Nella gerarchia di tipi ci sono *tre* tipi di supertipo.
+
+Alcuni supertipi sono detti **incompleti** e servono a stabilire dei vincoli nel comportamento dei sottotipi ma le loro specifiche sono talmente poco vincolanti che i sottotipi possono  essere scritti ignorando la specifica del supertipo. Un esempio è la classe supertipo *Collections*. La classe astratta *Collections* permette di definire i nomi delle operazioni (add, isEmpty, size, etc...) ma non va a porre vincoli stringenti su cosa esattamente facciano questi metodi.
+
+Altri sono detti supertipi **completi** e permettono di scrivere sottotipi utilizzando la specifica del supertipo e definiscono un'astrazione dati completa, quindi i sottotipi possono essere scritti utilizzando il codice del supertipo.
+
+Infine, esistono anche gli **snippets**, questi sono comunemente le interfacce. Uno snippet è un supertipo che provvede dei metodi, ma non abbastanza per configurarsi come un'intera astrazione dati. I sottotipi possono essere scritti sfruttando la specifica del supertipo.
+
+Riuscire a preservare il principio di sostituzione è facile quando i supertipi sono incompleti o sono degli snippets. Questo perchè, solitamenti, questi non hanno alcune proprietà che vanno rispettate, proprio perchè non definiscono un'astrazione dati completa.
+
+---
+##### Principio di sostituzione
+
+Il principi di sostituzione è il principio fondante della gerarchia di tipi. Questo principio assicura che i sottotipi possano essere utilizzati al posto di un supertipo. Si può sostituire un supertipo con un sottotipo. Quando si costruiscono gerarchie di tipi vanno seguite tre regole:
+
+- Regola della segnatura (signature rule): I sottotipi devono implementare gli stessi metodi del supertipo e devono avere una segnatura che sia *compatibile*. Questa regola ci assicura che qualsiasi chiamata che sia corretta dal punto di vista del tipo (type correct) per il supertipo lo è anche per il sottotipo. Questa regola è fatta valere dal compilatore stesso, che non ci permette di fare altrimenti. L'unica differenza è che il sottitipo può lanciare meno eccezioni. Java vede la compatibilità in modo molto stretto. Per fare un esempio, il sottotipo non può restituire un sottotipo del tipo restituito dal supertipo.  Ovvero, se il supertipo avesse la seguente segnatura:
+```java
+    public Object concatenate(String x, String y){
+        return x+y;
+    }
+```
+Il sottotipo non potrebbe fare quanto segue:
+```java
+    @Override public String concatenate(String x, String y){
+        return x+y;
+    }
+```
+Nonostante String sia un sottotipo di Object e, per il principio di sostituzione, non ci sia in realtà alcun problema.
+
+- Regola dei metodi (methods rule): Le chiamate ai metodi comuni al supertipo e al sottotipo devono, in quest'ultimo, comportarsi come le chiamate al supertipo per quei metodi.
+In altre parole, se il sottotipo fa un *override* di un metodo, questo deve comportarsi come si comporta nel supertipo. Un metodo deve "ragionare" rispettando le specifiche date al supertipo. Potremmo decidere di rispecificare un metodo ma dobbiamo fare attenzione, se un metodo viene rispecificato si rischia di non rispettare più i vincoli dati dal supertipo.
+Per un esempio di rispecificazione si guardi la domanda sula procedura sottodeterminata.
+In modo formale, in che modo può la specifica di un metodo del sottotipo variare rispetto a quella del supertipo? Il sottotipo può indebolire le precondizioni e rafforzare le post-condizioni. Per pre-condizioni s'intendono tutte le condizioni che devono essere garantite di valere dal chiamante al momento della chiamata stessa. Per post-condizioni si intendono le condizioni che sono garantite valere subito dopo la fine della chiamata (assumendo che le precondizioni valessero).
+Indebolire le precondizioni significa che il sottotipo si aspetta meno dal chiamante. Questo non va contro all'idea del principio di sostituzione. Se il sottotipo si aspetta meno del supertipo, vuol dire che se è chiamato al posto del supertipo non genera alcun problema. 
+Rafforzare le postcondizioni vuol dire che il sottotipo deve comunque rispettare gli effetti del supertipo ( non può cambiarli) ma può aggiungerne di nuovi, sempre che questi non contrastino con quelli definiti dal supertipo.
+Per questa regola non è sempre vero che un metodo del sottotipo può lanciare meno eccezioni. Infatti, deve mantenere lo stesso comportamento.
+Questa regola non può essere controllata dal compilatore, dato che è una regola semantica, che si occupa del significato (comportamento) dei metodi, e non può essere controllata. E' compito del programmatore assicurarsi che sia rispettata.
+
+- Regola delle proprietà (properties rule): Questa regola non si concentra sulla singola chiamata al metodo, come fa la regola dei metodi, ma sulle proprietà degli oggetti. Un sottotipo rispetta la regola delle proprietà se preserva ogni proprietà del supertipo. Sono incluse le proprietà di evoluzione (cioè come l'oggetto evolve/varia nel tempo). Un esempio è la proprietà di immutabilità. Questo non vuol dire che se il supertipo è immutabile allora il sottotipo non può essere mutabile, ma vuol dire che , qualora il sottotipo fosse mutabile, le mutazioni di quest'ultimo non devono essere visibili al supertipo. Per esempio, dato un punto 2d immutabile (x e y sono final) e un punto 3d che lo estende con z mutabile, questa gerarchia rispetta il LSP. Questo perchè le coordinate x ed  y sono immutabili anche nel sottotipo, ed il supertipo non ha accesso alla parte mutabile del sottotipo, perchè non ha la concezione di una terza coordinata.
 
 ---
 ##### Note sparse
