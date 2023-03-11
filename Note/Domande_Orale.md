@@ -1,9 +1,6 @@
 ### Domande orale
 
-Qui sotto sono riportate le domande fatte agli orali di *programmazione II* e le risposte.
-Le risposte non devono essere imparate a memoria, servono solo come aiuto a comprendere i diversi aspetti di *Java*.
-
-E' bene usare un linguaggio accurato durante l'esame orale. Non rispondete subito, prendetevi del tempo per organizzare le idee e preparare il discorso. Ricordatevi sempre di supportare la vostra narrazione con degli esempi, vanno bene anche quelli fatti a lezione/dal libro ma sono molto apprezzati esempi propri.
+Domande che potrebbero essere chieste all'orale di *Programmazione II* e possibili risposte.
 
 ---
 ##### Classi innestate
@@ -167,17 +164,28 @@ L'invariante di rappresentazione si chiama invariante perchè non varia, cioè �
 E' importante sottolineare che tra l'invariante e la funzione d'astrazione esiste un legame. Non ha senso andare a definire la funzione d'astrazione per oggetti che non sono legali, cioè che non rispettano l'IR.
 
 ---
-
-##### Correttezza dell'astrazione
-TODO
-
----
 ##### Le astrazioni
-TODO
+Un'astrazione è una mappa (i.e. una funzione) molti ad uno. Un'astrazione permette di astrarre da dettagli irrilevanti, di modo di descrivere un problema solamente con quelli che sono rilevanti. L'astrazione per *parametrizzazione* permette di astrarre dall'identità del dato utilizzato. Non importa quale sia il valore del dato (che rappresenta l'identità del dato stesso, un dato è definito dal suo valore) ma piuttosto è rilevante il tipo dei dati ed altresì il numero. Definiamo l'astrazione in termini dei *parametri*, detti *parametri formali*, e il dato effettivo è legato a questi parametri, che ci permettono di utilizzarlo. Per fare un esempio, il seguente segmento di "codice"
+```java
+    3+4;
+```
+Permette di fare la somma tra il numero 3 ed il numero 4. Senza l'astrazione per parametrizzazione, per ogni somma che desideriamo effettuare è necessario riscrivere il codice
+```java
+    8+15;
+```
+Con l'astrazione per parametrizzazione, invece, possiamo usare dei parametri
+```java
+    x+y;
+```
+il cui valore non è precisato.
+Un'altra astrazione è l'astrazione per *specificazione*, che permette di concentrarsi sul comportamento di un'astrazione (*procedurale* e *dati*) e non sull'effettiva implementazione. 
+Altresì detto, è di interesse ciò che viene fatto e non come viene fatto. L'astrazione per specificazione porta due benefici, il primo la *località*. Per località si intende che l'implementazione di un'astrazione è leggibile, o scrivibile, in termini della specificazione e basta. Non c'è necessità di andare a consultare altre astrazioni. Per l'astrazione dati questo implica che tutte le modifiche apportate allo stato devono essere fatta all'interno dell'astrazione e non fuori, pena la perdita della località. La seconda proprietà/beneficio è la modificabilità che permette di modificare l'implementazione di un'astrazione senza andare ad impattare sul resto del programma. Nell'astrazione dati questo ha un'implicazione più forte della località. Infatti, non solo lo stato deve essere modificato strettamente all'interno dell'astrazione, ma lo stato stesso non può essere visibile all'esterno (information hiding, incapsulamento). Se così non  fosse, cambiamenti allo stato non sarebbero possibili se non andando a mettere a rischio il funzionamento del programma.
+L'astrazione procedurale permette di definire delle operazioni. In *java* le operazioni sono definite tramite dei metodi. 
+L'astrazione dati permette di definire degli oggetti astratti in modo concreto, andando a "dimenticarsi" dei particolari irrelevanti. Questo consente di trattare l'oggetto come la rappresentazione concreta dell'oggetto astratto.
 
 ---
 ##### Polimorfismo
-Il polimorfismo generalizza le astrazioni in modo da poterle farle funzionare su diversi tipi. In questo modo non si deve ridefinire un'astrazione solamente perchè utilizza un tipo diverso.
+Il polimorfismo generalizza le astrazioni in modo da poterle farle funzionare su diversi tipi. Il polimorfismo **non** è un'astrazione. L'astrazione è una  generalizzazione concettuale ( generalizzo il concetto di animale, di veicolo, etc..) mentre il polimorfismo è una generalizzazione comportamentale. In questo modo non si deve ridefinire un'astrazione solamente perchè utilizza un tipo diverso.
 Un'astrazione dati potrebbe essere polimorfa rispetto ai tipi degli elementi che i suoi oggetti contengono. Un esempio potrebbe essere l'astrazione *List*. Una lista potrebbe contenere animali, libri, persone etc... . 
 Un metodo potrebbe essere polimorfo rispetto ai tipi degli argomenti che riceve. Per esempio, riprendendo la lista di prima, potremmo poter rimuovere un elemento di quella lista, che passiamo per argomento ad un metodo *remove*. Il tipo del parametro dipende dal tipo degli elementi della lista. 
 
@@ -185,18 +193,47 @@ In java possiamo ottenere il polimorfismo in due modi:
 - Attraverso la gerarchia dei tipi
 - Usando i generici (In questo caso si parla di polimorfismo parametrizzato)
 
-Nel primo caso gli argomenti interessati sono dichiarati come appartenenti al supertipo, in questo modo il tipo concreto può essere di uno dei sottotipi del supertipo. Solitamente come supertipo si sceglie il tipo *Object*, ma a volte questo può non essere una scelta soddisfacente. Infatti, *Object* ha già implementati alcuni metodi (quali per esempio *equals*) a cui si vuole dare una diversa implementazione oppure si vogliono aggiungere dei metodi extra. In questo caso allora si definisce un nuovo tipo da utilizzare da supertipo, a cui si provvedono le implementazioni volute e tutti i metodi extra necessari.
+Nel primo caso gli argomenti interessati sono dichiarati come appartenenti al supertipo, in questo modo il tipo concreto può essere di uno dei sottotipi del supertipo. Solitamente come supertipo si sceglie il tipo *Object*, ma a volte questo può non essere una scelta soddisfacente. Infatti, *Object* potrebbe non avere tutti i metodi necessari. In questo caso, allora, si definisce un nuovo tipo da utilizzare da supertipo (solitamente un'interfaccia, esempio Comparable), a cui si provvedono tutti i metodi extra necessari.
 Il tipo degli elementi restituiti dai metodi che restituiscono un oggetto della collezione è di tipo *Object*. Questo obbliga il codice che li utilizza ad effettuare un casting esplicito.
 Quando, per esempio, inseriamo elementi in una collezione nel contesto dell'astrazione polimorfa il compilatore non fa alcun tipo di controllo sul tipo degli elementi inseriti. Se in una lista vogliamo inserire degli Integer ma poi inseriamo anche un Gatto, il compilatore non solleverà alcuna eccezione.
+Nel caso in cui *Object* non fosse abbastanza (perchè servono metodi in più) si utilizzano delle interfacce per definire i metodi che i tipi degli elementi devono supportare.
+Ci sono tre approcci:
+- Element subtype approach: Tutti i potenziali elementi devono essere sottotipi dell'interfaccia. Questo però richiede di definire il supertipo prima ancora che i sottotipi siano ancora definiti. Ciò non è sempre possibile.
+- Related subtype approach: Definisco un'interfaccia di cui gli elementi **non** sono sottotipi. Si definisce un sottotipo dell'interfaccia per ogni potenziale elemento. Questo mi permette di definire prima tutti gli elementi e poi, successivamente, di associare ad ogni elemento un sottotipo dell'interfaccia (che è una classe concreta).
+- Combinazione degli approcchi prececedenti. Ci sono dei tipi che sono direttamente sottotipi dell'interfaccia altri che invece hanno un interfaccia associata. Permette di scegliere all'utente la soluzione migliore per ogni elemento.
+
+Il secondo modo di ottenere il polimorfismo in Java è attraverso il polimorfismo parametrizzato, ovvero con i generici. Un *generico* è una classe od interfaccia che nella sua dichiarazione ha uno o più tipi parametro. In questo caso si dice che la classe/interfaccia è una classe/interfaccia generica. I tipi parametro all'interno della dichiarazione del generico si dicono *tipo elemento*.  Ogni generico definisce un set di *tipi parametrizzati*. Un tipo parametrizzato è formato dalla classe/interfaccia seguita dalle parentesi angolari (< >) e i tipi attuali dei parametri (e.g. List<Integer>). Per ogni generico è definito anche un *raw type* . Il raw type si utilizza per due ragioni. La prima è per retro-compatibilità (migration compatibility), ovvero per permettere a tutti quei programmi che esistevano prima dell'introduzione dei generici di continuare a funzionare. Il secondo motivo è per l'utilizzo di instanceof, ma su questo punto ci torno successivamente. Al di fuori dell'ultima situazione descritta, i raw type non devono **MAI** essere utilizzati. Il tipo parametrizzato ci garantisce (a compile-time) che le operazioni fatte siano corrette a livello di tipo. Questo perchè, quando usiamo il tipo parametrizzato, il compilatore inserisce dei cast invisibili. 
+Sicché i generici dovevano, e devono, permette la retro compatibilità si è deciso di implementarli usando *erasure* (cancellazione). Questo vuol dire, che a runtime il programma non sa niente del tipo del generico. Ergo, righe di codice come questa
+```java
+    if( o instanceof List<Integer>)
+```
+non andranno a buon fine. Per questo, come detto prima, si utilizzano i raw type. La riga di codice
+```java
+    if( o instanceof List)
+```
+è legale. Attenzione al fatto che *List* non ha lo stesso significato di *List<Object>*, anche se apparentemente sembrano uguali. *List* è supertipo di tutti i tipi parametrizzati di classe List. *List<Object>* invece no. E' sbagliato dire che *List<Object>* sia supertipo di *List<String>*. Questa seconda proprietà dei generici è chiamata **invarianza**. Si noti come gli array sono all'estremo opposto: essi sono, infatti, covarianti e reificati (covariant e reified). 
+Java è un linguaggio fortemente tipizziato, quinci si ricava che dovrà esistere un modo per controllare il tipo di un generico, affinchè si ottenga un programma type safe. Con i vettori, che sono reificati (abbiamo una rappresentazione esplicita del tipo), il controllo viene fatto a run-time (per quanto riguarda il tipo concreto, il tipo apparente viene già controllato a compile-time). 
+Invece, nei generici, il compilatore aggiunge dei casting espliciti e controlla che quei casting siano corretti, e tutto ciò viene fatto a compile-time.
+
 
 ---
 ##### Le eccezioni
 
-
-
----
-##### La gerarchia dati
-TODO
+Le eccezioni sono un meccanismo che permette di segnalare all'utente delle situazioni che richiedono attenzione. Senza questo meccanismo il programma non ha modo di segnalare all'utente che l'esecuzione di un certo metodo è fallita per qualche motivo. Precedentemente all'introduzione dell'eccezioni c'erano due modi per cercare di comunicare all'utente che qualcosa fosse andato storto: il primo, il più drastico ma forse più sicuro, è l'interruzione del programma. Questo, però, va contro l'idea di "graceful degradation". Se un aereo ha problemi con il carrello d'atterraggio, non vogliamo che l'aereo si spenga. Invece, avremmo il desiderio che ci venga notificato questo problema e che ci dia la possibilità di trovare una soluzione o, almeno, di continuare anche con il carrello fuori uso. 
+Allora, ancor prima dell'eccezioni, può essere che un metodo potesse restituire un valore determinato per gli errori. Ciò presenta altresì dei problemi:
+- Se i valori restituiti dal metodo sono tutti valori possibili, cioè appartengono tutti al range della funzione, che cosa si fa?
+- Qualora esistessero valori fuori dal range, come ci assicuriamo che l'utente si accorga dell'errore? L'utente potrebbe prendere per buono quel valore, o non accorgersene affatto, o accorgesene successivamente senza capire il perchè il programma sia morto.
+Il meccanismo delle eccezioni permette di:
+- Segnalare all'utente che c'è stato un problema. L'utente non può ignorare l'eccezione e non può non accorgersene.
+- Permettere all'utente di prendere delle misure per assicurarsi che il programma continui a funzionare, almeno in una forma parziale.
+In *java* le eccezioni sono di due tipi: checked ed unchecked.
+L'eccezioni unchecked vengono utilizzate per segnalare un errore del programmatore nell'invocazione del metodo, o che si suppone il programmatore potesse prevenire. In un metodo che prende come input un numero intero e ne fa la radice quadrata, passare un numero negativo è sicuramente un errore del programmatore. Il metodo, quindi, può lanciare un'eccezione (in questo caso potrebbe decidere di usare una *IllegalArgumentException*). Tutte le eccezioni unchecked sono figlie di *RunTimeException*. Le eccezioni di questo tipo non devono essere obbligatoriamente dichiarate nell'intestazione di un metodo (è buona pratica, però, documentarle).
+Le eccezioni checked, figlie di *Exception* tranne *IllegalArgumentException* (sì è casinistico!), sono delle eccezioni che obbligano il programmatore a prendersene cura. Solitamente vengono lanciate per situazioni non nel controllo dell'utente. Per esempio, l'apertura di un file potrebbe generare degli errori (il file non esiste, è stato spostato, etc...).
+L'utente è quindi chiamato a prendersi cura delle eccezioni checked. Può farlo in due modi:
+- Fare "galleggiare" l'eccezione, dichiarando l'eccezione nell'intestazione.
+- "Mascherare" l'eccezione attraverso l'utilizzo di un try-catch. Nella parte del catch il programmatore può decidere diverse soluzioni. Può lanciare altre eccezioni (ma a quel punto se checked vanno aggiunte all'intestazione del metodo) oppure svolegere delle operazioni in risposta all'eccezione.
+Alcune volte mascherare l'eccezione può essere utile per lanciare un'eccezione che abbia senso.
+Per esempio, sia *Statistica* una classe che prende dei numeri interi e calcola la media. *Statistica* è mutabile, e permette di aggiungere numeri interi e di rimuoverli. Immaginiamo che statistica abbia un metodo *remove(int I)* che permette di rimuovere l'i-esima osservazione. Se *Statistica* mantiene le osservazioni con un vettore, e l'indice passato al metodo *remove*è fuori dal bound, che cosa deve fare il metodo? Lanciare un'eccezione. Ma se lanciasse l'eccezione IndexOutOfBound, che informazioni dà all'utente? E' meglio che mascheri l'eccezione e ne lanci una che abbia senso per il livello di astrazione considerato.
 
 ---
 ##### Tipi di supertipo
@@ -242,6 +279,12 @@ Questa regola non può essere controllata dal compilatore, dato che è una regol
 - Regola delle proprietà (properties rule): Questa regola non si concentra sulla singola chiamata al metodo, come fa la regola dei metodi, ma sulle proprietà degli oggetti. Un sottotipo rispetta la regola delle proprietà se preserva ogni proprietà del supertipo. Sono incluse le proprietà di evoluzione (cioè come l'oggetto evolve/varia nel tempo). Un esempio è la proprietà di immutabilità. Questo non vuol dire che se il supertipo è immutabile allora il sottotipo non può essere mutabile, ma vuol dire che , qualora il sottotipo fosse mutabile, le mutazioni di quest'ultimo non devono essere visibili al supertipo. Per esempio, dato un punto 2d immutabile (x e y sono final) e un punto 3d che lo estende con z mutabile, questa gerarchia rispetta il LSP. Questo perchè le coordinate x ed  y sono immutabili anche nel sottotipo, ed il supertipo non ha accesso alla parte mutabile del sottotipo, perchè non ha la concezione di una terza coordinata.
 
 ---
+##### Dispatching
+
+TODO 
+
+---
 ##### Note sparse
 - I record di cui parla la Liskov **non** sono i record introdotti in Java 14. Per la Liskov un record è una classe package protected che colleziona dei campi e a cui il codice del pacchetto ha accesso diretto, con possibilità di modifica. Insomma, è un modo per compattare delle informazioni.
 - Come già detto nella relativa domanda, non fatevi confondore dal significato di benevolent quando si parla di benevolent side effect! Benevolent vuol dire che è un effetto che non cambia l'oggetto astratto rappresentato, non vuol dire che offre dei vantaggi!
+- Il mascheramento dell'eccezioni non è per proteggere la rappresentazione. Dopo che l'utente sa che noi abbiamo implementato qualcosa con una lista, che cosa se ne fa? Nulla, non può in alcun modo crearci dei problemi. E' importante, invece, per dare un significato comprensibile all'utente.
