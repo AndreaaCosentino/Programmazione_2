@@ -211,7 +211,7 @@ non andranno a buon fine. Per questo, come detto prima, si utilizzano i raw type
 ```java
     if( o instanceof List)
 ```
-è legale. Attenzione al fatto che *List* non ha lo stesso significato di *List<Object>*, anche se apparentemente sembrano uguali. *List* è supertipo di tutti i tipi parametrizzati di classe List. *List<Object>* invece no. E' sbagliato dire che *List<Object>* sia supertipo di *List<String>*. Questa seconda proprietà dei generici è chiamata **invarianza**. Si noti come gli array sono all'estremo opposto: essi sono, infatti, covarianti e reificati (covariant e reified). 
+è legale. Attenzione al fatto che *List* non ha lo stesso significato di *List< Object >*, anche se apparentemente sembrano uguali. *List* è supertipo di tutti i tipi parametrizzati di classe List. *List< Object >* invece no. E' sbagliato dire che *List< Object >* sia supertipo di *List< String >*. Questa seconda proprietà dei generici è chiamata **invarianza**. Si noti come gli array sono all'estremo opposto: essi sono, infatti, covarianti e reificati (covariant e reified). 
 Java è un linguaggio fortemente tipizziato, quinci si ricava che dovrà esistere un modo per controllare il tipo di un generico, affinchè si ottenga un programma type safe. Con i vettori, che sono reificati (abbiamo una rappresentazione esplicita del tipo), il controllo viene fatto a run-time (per quanto riguarda il tipo concreto, il tipo apparente viene già controllato a compile-time). 
 Invece, nei generici, il compilatore aggiunge dei casting espliciti e controlla che quei casting siano corretti, e tutto ciò viene fatto a compile-time.
 
