@@ -223,15 +223,18 @@ Le eccezioni sono un meccanismo che permette di segnalare all'utente delle situa
 Allora, ancor prima dell'eccezioni, può essere che un metodo potesse restituire un valore determinato per gli errori. Ciò presenta altresì dei problemi:
 - Se i valori restituiti dal metodo sono tutti valori possibili, cioè appartengono tutti al range della funzione, che cosa si fa?
 - Qualora esistessero valori fuori dal range, come ci assicuriamo che l'utente si accorga dell'errore? L'utente potrebbe prendere per buono quel valore, o non accorgersene affatto, o accorgesene successivamente senza capire il perchè il programma sia morto.
+
 Il meccanismo delle eccezioni permette di:
 - Segnalare all'utente che c'è stato un problema. L'utente non può ignorare l'eccezione e non può non accorgersene.
 - Permettere all'utente di prendere delle misure per assicurarsi che il programma continui a funzionare, almeno in una forma parziale.
+
 In *java* le eccezioni sono di due tipi: checked ed unchecked.
 L'eccezioni unchecked vengono utilizzate per segnalare un errore del programmatore nell'invocazione del metodo, o che si suppone il programmatore potesse prevenire. In un metodo che prende come input un numero intero e ne fa la radice quadrata, passare un numero negativo è sicuramente un errore del programmatore. Il metodo, quindi, può lanciare un'eccezione (in questo caso potrebbe decidere di usare una *IllegalArgumentException*). Tutte le eccezioni unchecked sono figlie di *RunTimeException*. Le eccezioni di questo tipo non devono essere obbligatoriamente dichiarate nell'intestazione di un metodo (è buona pratica, però, documentarle).
 Le eccezioni checked, figlie di *Exception* tranne *IllegalArgumentException* (sì è casinistico!), sono delle eccezioni che obbligano il programmatore a prendersene cura. Solitamente vengono lanciate per situazioni non nel controllo dell'utente. Per esempio, l'apertura di un file potrebbe generare degli errori (il file non esiste, è stato spostato, etc...).
 L'utente è quindi chiamato a prendersi cura delle eccezioni checked. Può farlo in due modi:
 - Fare "galleggiare" l'eccezione, dichiarando l'eccezione nell'intestazione.
 - "Mascherare" l'eccezione attraverso l'utilizzo di un try-catch. Nella parte del catch il programmatore può decidere diverse soluzioni. Può lanciare altre eccezioni (ma a quel punto se checked vanno aggiunte all'intestazione del metodo) oppure svolegere delle operazioni in risposta all'eccezione.
+
 Alcune volte mascherare l'eccezione può essere utile per lanciare un'eccezione che abbia senso.
 Per esempio, sia *Statistica* una classe che prende dei numeri interi e calcola la media. *Statistica* è mutabile, e permette di aggiungere numeri interi e di rimuoverli. Immaginiamo che statistica abbia un metodo *remove(int I)* che permette di rimuovere l'i-esima osservazione. Se *Statistica* mantiene le osservazioni con un vettore, e l'indice passato al metodo *remove*è fuori dal bound, che cosa deve fare il metodo? Lanciare un'eccezione. Ma se lanciasse l'eccezione IndexOutOfBound, che informazioni dà all'utente? E' meglio che mascheri l'eccezione e ne lanci una che abbia senso per il livello di astrazione considerato.
 
